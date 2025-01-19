@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Archivo</title>
+    <link rel="stylesheet" href="{% static 'css/styles_subida.css' %}">
+</head>
+<body>
+    <header>
+
+        <img src="{% static 'imagenes/Volaris-Logo.png' %}" alt="Logo Volaris" class="logo">
+        <h1>Bienvenido</h1>
+        <img src="{% static 'imagenes/kargo.png' %}" alt="Logo Kargo" class="logo2">
+
+    </header>
+    <main>
+        <div class="background"></div>
+        <div class="login-form">
+            <h2>Subir Archivo</h2>
+            <!-- Formulario para subir archivos -->
+            <form action="#" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div style="margin-top: 5px;">
+                    <label for="identificacion"><strong>Identificación</strong></label>
+                    <input type="file" name="identificacion" id="identificacion" required>
+                </div>
+
+                <div style="margin-top: 5px;">
+                    <label for="guia"><strong>Guía</strong></label>
+                    <input type="file" name="guia" id="guia" required>
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <button type="submit" class="subir">Subir</button>
+                    <a href="{% url 'home' %}" class="cancelar">Cancelar</a>
+
+                </div>
+            </form>
+
+
+        </div>
+    </main>
+
+
+
+
+</body>
+</html>
