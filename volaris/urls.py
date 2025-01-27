@@ -11,5 +11,7 @@ urlpatterns = [
 path('home/', views.home_view, name='home'),
     path('subir/', views.subir_view, name='subir'),
 path('HOME_ADMIN/', views.HOME_ADMIN, name='HOME_ADMIN'),
+
+path('subir_AD/', views.subir_AD, name='subir_AD'),
 ]
 

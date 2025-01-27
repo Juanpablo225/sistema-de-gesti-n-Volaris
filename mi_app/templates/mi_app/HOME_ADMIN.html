@@ -7,18 +7,23 @@
     <title>Menú Central</title>
     <!-- Usar la etiqueta static para cargar la hoja de estilo -->
     <link rel="stylesheet" href="{% static 'css/styles_home.css' %}">
+
+
 </head>
 <body>
     <header>
+
+<form action="{% url 'login'  %}" method="get">
+                    <button class="btn-buscar"> cerrar secion</button>
+                </form>
+
 
         <!-- Usar la etiqueta static para cargar las imágenes -->
         <img src="{% static 'imagenes/Volaris-Logo.png' %}" alt="Logo de Volaris" class="logo">
         <h1>Menú Principal</h1>
         <img src="{% static 'imagenes/kargo.png' %}" alt="Logo de Kargo" class="logo2">
 
-<form action="{% url 'login'  %}" method="get">
-                    <button class="logout-button"> cerrar secion</button>
-                </form>
+
     </header>
     <main>
         <div class="background"></div>
@@ -26,11 +31,11 @@
             <h2>¿Qué deseas hacer?</h2>
             <div class="menu-options">
                 <!-- Aquí usas URL de Django para las vistas -->
-                <form action="{% url 'subir'  %}" method="get">
+                <form action="{% url 'subir_AD'  %}" method="get">
                     <button class="btn-agregar">Agregar</button>
                 </form>
                 <form action="#" method="get">
-                    <button class="btn-buscar">Buscar</button>
+                    <button class="btn-buscar">conbinar</button>
                 </form>
 
             </div>
@@ -39,7 +44,7 @@
 
     </main>
 <form  action="#" method="get">
-        <button class="btn-buscar1">cambiar contrasena</button>
+        <button class="btn-buscar">modificar contrasena user</button>
     </form>
 
 

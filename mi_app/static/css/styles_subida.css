@@ -1,5 +1,3 @@
-
-
 /* General Reset */
 * {
     margin: 0;
@@ -12,11 +10,12 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden; /* Evita barras de desplazamiento */
 }
 
 /* Estilo del encabezado */
 header {
-    height: 100px; /* Espacio en blanco arriba */
+    height: 100px;
     background-color: white;
     display: flex;
     align-items: center;
@@ -25,6 +24,7 @@ header {
     padding: 0 20px;
     gap: 15px;
     position: relative;
+    z-index: 10; /* Asegura que el encabezado esté sobre el fondo */
 }
 
 header h1 {
@@ -33,7 +33,6 @@ header h1 {
     font-size: 24px;
 }
 
-/* Estilo de la imagen del logo */
 .logo {
     height: 60px;
     width: auto;
@@ -44,37 +43,6 @@ header h1 {
     width: auto;
 }
 
-/* Botón "Cerrar sesión" */
-.logout-button {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 10px 15px;
-    background-color: #dc3545; /* Rojo */
-    color: white;
-    text-decoration: none;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.logout-button:hover {
-    background-color: #c82333;
-}
-
-/* Estilo del contenido principal */
-main {
-    flex: 100;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 /* Fondo con imágenes que cambian */
 .background {
     position: absolute;
@@ -82,7 +50,7 @@ main {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: -1; /* Asegura que el fondo esté detrás del contenido */
     animation: fadeBackground 15s infinite;
 }
 
@@ -95,16 +63,30 @@ main {
 .background {
     background-size: cover;
     background-position: center;
+    filter: brightness(0.8); /* Oscurece ligeramente para resaltar los formularios */
 }
 
-/* Estilo del formulario de inicio de sesión */
+/* Estilo del contenido principal */
+main {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centra el contenido verticalmente */
+    padding: 20px; /* Espaciado alrededor */
+}
+
+/* Estilo de los formularios */
 .login-form {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.9); /* Fondo semitransparente */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 350px;
     text-align: center;
+    margin-top: 20px; /* Espaciado superior para cada formulario */
+    z-index: 5; /* Asegura que los formularios estén sobre el fondo */
 }
 
 .login-form h2 {
@@ -121,11 +103,11 @@ main {
     border-radius: 5px;
 }
 
-/* Botón "Subir" */
-.subir {
+/* Botones del formulario */
+.subir, .cancelar {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #28a745; /* Verde */
+    background-color: #28a745; /* Verde por defecto */
     color: white;
     text-decoration: none;
     border: none;
@@ -141,27 +123,48 @@ main {
     background-color: #218838;
 }
 
-/* Botón "Cancelar" */
 .cancelar {
-    display: inline-block;
-    padding: 10px 20px;
     background-color: #dc3545; /* Rojo */
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 16px;
-    text-align: center;
-    transition: background-color 0.3s ease;
 }
 
 .cancelar:hover {
     background-color: #c82333;
 }
 
-/* Contenedor de botones */
-button + .cancelar {
-    margin-left: 10px; /* Espaciado adicional para evitar que se peguen demasiado */
+/* Título del segundo formulario */
+h3 {
+    margin-top: 30px;
+    text-align: center;
+    color: #333;
+    font-size: 20px;
 }
 
- 
+/* Separación entre formularios */
+.login-form + .login-form {
+    margin-top: 80px; /* Mayor espacio entre el primer y segundo formulario */
+}
 
+/* Espaciado adicional para evitar que el título y el segundo formulario estén juntos */
+h3 + .login-form {
+    margin-top: 20px;
+}
+
+/* Enlace de descarga */
+.subir-descargar {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff; /* Azul */
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px; /* Espaciado superior */
+}
+
+.subir-descargar:hover {
+    background-color: #0056b3;
+}

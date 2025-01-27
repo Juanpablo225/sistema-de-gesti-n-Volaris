@@ -1,13 +1,8 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
+import os
+from django.conf import settings
 
-
-# Vista para manejar el login
-from django.shortcuts import render, redirect
-
-from django.shortcuts import render, redirect
-
-from django.shortcuts import render, redirect
 
 def login_view(request):
     if request.method == 'POST':
@@ -54,16 +49,87 @@ def login_view(request):
     return render(request, 'mi_app/login.html')
 
 
-
-
-
-
-
-from django.shortcuts import render
 def home_view(request):
     return render(request, 'mi_app/home.html')  # Renderiza la página home
 
-def subir_view(request):
-    return render(request, 'mi_app/subir.html') #RENDERIZA SUBIR
 def HOME_ADMIN(request):
     return render(request, 'mi_app/HOME_ADMIN.html')
+
+
+
+def subir_view(request):
+    archivo_combinado = None
+
+    if request.method == 'POST':
+        archivo1 = request.FILES.get('archivo1')
+        archivo2 = request.FILES.get('archivo2')
+
+        # Lógica para combinar los archivos (Este es solo un ejemplo básico)
+        if archivo1 and archivo2:
+            # Crear un archivo combinado (en este caso simplemente los concatenamos)
+            archivo_combinado = 'archivo_combinado.pdf'  # Cambia el nombre de archivo si lo necesitas
+
+            # Guardar el archivo combinado en el directorio 'media'
+            with open(os.path.join(settings.MEDIA_ROOT, archivo_combinado), 'wb') as f:
+                for archivo in [archivo1, archivo2]:
+                    for chunk in archivo.chunks():
+                        f.write(chunk)
+
+            # Retornar al template con el nombre del archivo combinado
+            return render(request, 'mi_app/subir.html', {
+                'archivo_combinado': archivo_combinado
+            })
+
+    # Si no se han subido archivos o no es un POST, renderiza el formulario vacío
+    return render(request, 'mi_app/subir.html', {'archivo_combinado': archivo_combinado})
+
+
+
+def subir_AD(request):
+    archivo_combinado = None
+
+    if request.method == 'POST':
+        archivo1 = request.FILES.get('archivo1')
+        archivo2 = request.FILES.get('archivo2')
+
+        # Lógica para combinar los archivos (Este es solo un ejemplo básico)
+        if archivo1 and archivo2:
+            # Crear un archivo combinado (en este caso simplemente los concatenamos)
+            archivo_combinado = 'archivo_combinado.pdf'  # Cambia el nombre de archivo si lo necesitas
+
+            # Guardar el archivo combinado en el directorio 'media'
+            with open(os.path.join(settings.MEDIA_ROOT, archivo_combinado), 'wb') as f:
+                for archivo in [archivo1, archivo2]:
+                    for chunk in archivo.chunks():
+                        f.write(chunk)
+
+            # Retornar al template con el nombre del archivo combinado
+            return render(request, 'mi_app/subir.html', {
+                'archivo_combinado': archivo_combinado
+            })
+
+    # Si no se han subido archivos o no es un POST, renderiza el formulario vacío
+    return render(request, 'mi_app/subir_AD.html', {'archivo_combinado': archivo_combinado})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def descargar_archivo(request, archivo):
+    archivo_path = os.path.join(settings.MEDIA_ROOT, archivo)
+
+    # Verifica si el archivo existe
+    if os.path.exists(archivo_path):
+        return FileResponse(open(archivo_path, 'rb'), as_attachment=True, filename=archivo)
+
+    return HttpResponse('Archivo no encontrado', status=404)

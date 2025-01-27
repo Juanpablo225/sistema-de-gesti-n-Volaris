@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="{% static 'css/styles_home.css' %}">
 </head>
 <body>
+<form action="{% url 'login'  %}" method="get">
+                    <button class="btn-buscar"> cerrar secion</button>
+                </form>
+
     <header>
 
         <!-- Usar la etiqueta static para cargar las imágenes -->
@@ -16,9 +20,7 @@
         <h1>Menú Principal</h1>
         <img src="{% static 'imagenes/kargo.png' %}" alt="Logo de Kargo" class="logo2">
 
-<form action="{% url 'login'  %}" method="get">
-                    <button class="logout-button"> cerrar secion</button>
-                </form>
+
     </header>
     <main>
         <div class="background"></div>
