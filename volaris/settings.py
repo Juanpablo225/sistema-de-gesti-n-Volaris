@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'volaris.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',  # Usamos MySQL en lugar de SQLite
+        'NAME': 'bs_admin',  # Nombre de tu base de datos
+        'USER': 'MANZO',  # Usuario de MySQL que creaste
+        'PASSWORD': '123456',  # Contraseña del usuario
+        'HOST': 'localhost',  # El servidor de la base de datos (local en este caso)
+        'PORT': '3306',  # Puerto de MySQL (3306 es el predeterminado)
     }
 }
 

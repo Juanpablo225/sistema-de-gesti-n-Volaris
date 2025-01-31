@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios Registrados</title>
+</head>
+<body>
+    <h2>Lista de Usuarios</h2>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nombre de Usuario</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>
+                    <a href="{% url 'edit_user' user.id %}">Editar Contraseña</a> |
+                    <a href="{% url 'delete_user' user.id %}">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if success %}
+    <p style="color:green;">Acción realizada con éxito.</p>
+    {% endif %}
+    {% if error %}
+    <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'HOME_ADMIN' %}">Volver al inicio</a>
+</body>
+</html>

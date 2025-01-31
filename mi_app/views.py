@@ -4,48 +4,36 @@ import os
 from django.conf import settings
 
 
+from django.shortcuts import render, redirect
+from django.db import connection
+from django.contrib.auth import authenticate, login
+
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+
+
+
+
 def login_view(request):
     if request.method == 'POST':
-        # Obtener los datos del formulario
         username = request.POST.get('username')
         password = request.POST.get('password')
-        station_code = request.POST.get('stationCode')
 
-        # Rutas de los archivos de credenciales
-        usuarios_file = 'mi_app/static/imagenes/credenciales.txt'  # Ruta del archivo de usuarios
-        admin_file = 'mi_app/static/imagenes/administradores.txt'  # Ruta del archivo de administradores
+        user = authenticate(request, username=username, password=password)
 
-        try:
-            # Leer el archivo de usuarios
-            with open(usuarios_file, 'r') as file:
-                usuario_lines = file.readlines()
-
-            # Leer el archivo de administradores
-            with open(admin_file, 'r') as file:
-                admin_lines = file.readlines()
-
-            # Validar si las credenciales son de un administrador
-            for line in admin_lines:
-                stored_username, stored_password, stored_station_code = line.strip().split()
-                if username == stored_username and password == stored_password and station_code == stored_station_code:
-                    # Si las credenciales coinciden con un administrador
-                    return redirect('HOME_ADMIN')  # Cambia por la URL de la página de administrador
-
-            # Validar si las credenciales son de un usuario normal
-            for line in usuario_lines:
-                stored_username, stored_password, stored_station_code = line.strip().split()
-                if username == stored_username and password == stored_password and station_code == stored_station_code:
-                    # Si las credenciales coinciden con un usuario
-                    return redirect('home')  # Cambia por la URL de la página de usuario
-
-            # Si no se encuentra ninguna coincidencia
+        if user is not None:
+            login(request, user)
+            if user.is_superuser:  # Si es superusuario (admin)
+                return redirect('HOME_ADMIN')
+            else:
+                return redirect('home')
+        else:
             return render(request, 'mi_app/login.html', {'error': 'Credenciales incorrectas'})
 
-        except FileNotFoundError:
-            # Manejo de error si no se puede encontrar el archivo de credenciales
-            return render(request, 'mi_app/login.html', {'error': 'No se pudo acceder al archivo de credenciales'})
-
-    # Si la solicitud no es POST, solo renderiza la página de login
     return render(request, 'mi_app/login.html')
 
 
@@ -133,3 +121,44 @@ def descargar_archivo(request, archivo):
         return FileResponse(open(archivo_path, 'rb'), as_attachment=True, filename=archivo)
 
     return HttpResponse('Archivo no encontrado', status=404)
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Vista para listar usuarios
+def user_list_view(request):
+    users = User.objects.all()  # Obtener todos los usuarios
+    return render(request, 'mi_app/user_list.html', {'users': users})
+
+# Vista para eliminar un usuario
+def delete_user_view(request, user_id):
+    try:
+        user = User.objects.get(id=user_id)
+        user.delete()
+        return redirect('user_list')  # Redirige de nuevo a la lista de usuarios
+    except User.DoesNotExist:
+        return redirect('user_list', {'error': 'Usuario no encontrado'})
+
+# Vista para editar la contraseña de un usuario
+def edit_user_view(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)  # Mantener la sesión activa
+            return redirect('user_list')  # Redirigir a la lista de usuarios
+        else:
+            return render(request, 'mi_app/edit_user.html', {'form': form, 'user': user, 'error': 'Contraseña no válida'})
+    else:
+        form = PasswordChangeForm(user=user)
+    return render(request, 'mi_app/edit_user.html', {'form': form, 'user': user})

@@ -9,4 +9,11 @@ urlpatterns = [
     path('combinar_archivos/', views.subir_view, name='combinar_archivos'),  # Cambié a views.subir_view
     path('descargar/<str:archivo>/', views.descargar_archivo, name='descargar_archivo'),
     path('subir_AD/', views.subir_AD, name='subir_AD'),
+
+
+
+
+    path('users/', views.user_list_view, name='user_list'),  # Lista de usuarios
+    path('users/delete/<int:user_id>/', views.delete_user_view, name='delete_user'),  # Eliminar usuario
+    path('users/edit/<int:user_id>/', views.edit_user_view, name='edit_user'),  # Editar contraseña
 ]
